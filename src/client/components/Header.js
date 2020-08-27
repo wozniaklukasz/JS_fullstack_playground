@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import {Container} from "react-bootstrap"
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "./features/auth/authSelectors";
@@ -23,12 +24,12 @@ const Header = () => {
     );
 
   return (
-    <div>
+    <Container>
       <Link to="/">Home</Link>
       <Link to="/users">Users</Link>
       <Link to="/admins">Admins</Link>
       {authButton(currentUser)}
-    </div>
+    </Container>
   );
 };
 

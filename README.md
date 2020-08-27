@@ -15,7 +15,9 @@ write how to ssr prefetch
 - [ ] Docker mongo + server
 - [x] .env
 - [x] auth user with passport.js (Google, Facebook)
+- [x] styled components
 
 ## TODO:
 - [ ] clear dependencies
 - [ ] linters
+- [ ] css grid
