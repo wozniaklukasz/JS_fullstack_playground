@@ -6,10 +6,9 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
-import { renderRoutes } from "react-router-config";
 import axios from "axios";
-import Routes from "./Routes";
 import rootReducer from "./rootReducer";
+import App from "./components/App";
 
 const axiosInstance = axios.create({});
 
@@ -28,7 +27,7 @@ const store = createStore(
 ReactDOM.hydrate(
   <Provider store={store}>
     <BrowserRouter>
-      {renderRoutes(Routes)}
+      <App />
     </BrowserRouter>
   </Provider>,
   document.querySelector("#root")

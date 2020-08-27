@@ -1,17 +1,18 @@
 import React from "react";
-import { renderToString } from "react-dom/server";
-import { Provider } from "react-redux";
-import { StaticRouter } from "react-router-dom";
-import { renderRoutes } from "react-router-config";
+import {renderToString} from "react-dom/server";
+import {Provider} from "react-redux";
+import {StaticRouter} from "react-router-dom";
 import serialize from "serialize-javascript"; // prevent XSS attacks
-import { Helmet } from "react-helmet";
-import Routes from "../client/Routes";
+import {Helmet} from "react-helmet";
+import App from "../client/components/App";
 
-export default (path, store, context) => {
+export default async (path, store, context) => {
+  await App.preInitStore(store, path);
+
   const content = renderToString(
     <Provider store={store}>
       <StaticRouter location={path} context={context}>
-        {renderRoutes(Routes)}
+        <App/>
       </StaticRouter>
     </Provider>
   );
@@ -33,8 +34,8 @@ export default (path, store, context) => {
           <body>
               <div id="root">${content}</div>
               <script>window.INITIAL_STATE=${serialize(
-                store.getState()
-              )}</script>
+    store.getState()
+  )}</script>
               <script src="bundle.js"></script>
           </body>
       </html>

@@ -1,4 +1,5 @@
 # JavaScript full-stack server side rendering playground.
+write how to ssr prefetch
 
 - [x] React (hooks)
 - [x] Redux (witch Redux Toolkit)
@@ -11,6 +12,7 @@
 - [x] ES6 syntax
 - [x] Webpack
 - [ ] Production webpack
+- [ ] Docker mongo + server
 - [x] .env
 - [x] auth user with passport.js (Google, Facebook)
 

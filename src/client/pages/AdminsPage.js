@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAdmins } from "../components/features/admins/adminsSelectors";
 import { fetchAdmins } from "../components/features/admins/adminsSlice";
 import requireAuth from "../components/hocs/requireAuth";
+import {fetchUsers} from "../components/features/users/usersSlice";
 
 const AdminsPage = () => {
   const dispatch = useDispatch();
@@ -26,10 +27,6 @@ const AdminsPage = () => {
   );
 };
 
-// SSR way to fetch initial data (to not double-render)
-const loadData = (store) => store.dispatch(fetchAdmins());
+AdminsPage.preInitStore = (store) => store.dispatch(fetchUsers());
 
-export default {
-  component: requireAuth(AdminsPage), // component because of react-router-config SSR approach
-  loadData,
-};
+export default requireAuth(AdminsPage);

@@ -1,21 +1,24 @@
 import React from "react";
 import {Container} from "react-bootstrap"
 import Header from "./Header";
-import { renderRoutes } from "react-router-config";
-import { fetchCurrentUser } from "./features/auth/authSlice";
+import Router from "../Routes";
 
-const App = ({ route }) => {
+const App = () => {
   return (
     <Container>
-      <Header />
-      {renderRoutes(route.routes)}
+      <Header/>
+      <Router/>
     </Container>
   );
 };
 
-const loadData = (store) => store.dispatch(fetchCurrentUser());
-
-export default {
-  component: App,
-  loadData,
+App.preInitStore = async (store, url) => {
+  try {
+    await Router.preInitStore(store, url)
+  } catch (e) {
+    // this catch is key to display view to user if some api do not respond
+    console.error('Error during App.preInitStore: ', e.message ? e.message : e);
+  }
 };
+
+export default App;
