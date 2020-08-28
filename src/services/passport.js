@@ -1,6 +1,7 @@
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20/lib/strategy";
 import FacebookStrategy from "passport-facebook/lib/strategy";
+import TwitterStrategy from "passport-twitter/lib/strategy";
 import mongoose from "mongoose";
 
 const User = mongoose.model("User");
@@ -59,6 +60,33 @@ passport.use(
           } else {
             new User({
               facebookId: profile.id,
+              name: profile.displayName,
+            })
+              .save()
+              .then((newUser) => done(null, newUser))
+              .catch((e) => console.error(e));
+          }
+        })
+        .catch((e) => console.error(e));
+    }
+  )
+);
+
+passport.use(
+  new TwitterStrategy(
+    {
+      consumerKey: process.env.TWITTER_CONSUMER_KEY,
+      consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+      callbackURL: "/auth/twitter/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      User.findOne({ twitterId: profile.id })
+        .then((existingUser) => {
+          if (existingUser) {
+            done(null, existingUser);
+          } else {
+            new User({
+              twitterId: profile.id,
               name: profile.displayName,
             })
               .save()

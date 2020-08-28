@@ -20,6 +20,7 @@ const Header = () => {
       <>
         <a href="/auth/google">Login Google</a>
         <a href="/auth/facebook">Login Facebook</a>
+        <a href="/auth/twitter">Login Twitter</a>
       </>
     );
 

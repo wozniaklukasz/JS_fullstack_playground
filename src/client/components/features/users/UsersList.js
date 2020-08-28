@@ -15,7 +15,7 @@ const UsersList = () => {
     <ul>
       {users.map((u) => (
         <li key={u._id}>
-          {u.name} - {u.facebookId ? "FB" : null} {u.googleId ? "G" : null}
+          {u.name} - {u.facebookId ? "FB" : null} {u.googleId ? "G" : null} {u.twitterId ? "Twitter" : null}
         </li>
       ))}
     </ul>

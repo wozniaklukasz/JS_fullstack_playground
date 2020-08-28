@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 const userSchema = new Schema({
   googleId: String,
   facebookId: String,
+  twitterId: String,
   name: String,
 });
 
