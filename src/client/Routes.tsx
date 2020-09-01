@@ -45,8 +45,10 @@ Router.preInitStore = async (store, url) => {
     await Promise.all(route.childComponentsPreInitStore.map(async childComponent => childComponent.preInitStore(store)))
   }
 
+  // @ts-ignore
   if (!route || !route.component || !route.component.preInitStore) return;
 
+  // @ts-ignore
   await route.component.preInitStore(store);
 };
 

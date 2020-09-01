@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import express from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
@@ -36,11 +35,14 @@ app.get("*", async (req, res, next) => {
   try {
     const content = await renderer(path, store, context);
 
+    // @ts-ignore
     if (context.url) {
       // requireAuth uses Redirect
+      // @ts-ignore
       return res.redirect(301, context.url);
     }
 
+    // @ts-ignore
     if (context.notFound) res.status(404);
 
     res.send(content);

@@ -5,8 +5,7 @@ import Header from "./Header";
 import Router from "../Routes";
 import Footer from "./Footer";
 
-const App = () => {
-  const GridWrapper = styled.div`
+const GridWrapper = styled.div`
     display: grid;
     grid-template-rows: 1fr;
     grid-template-areas:
@@ -15,14 +14,15 @@ const App = () => {
     height: 100%;
   `;
 
-  const GridMain = styled.div`
+const GridMain = styled.div`
     grid-area: main;
   `;
 
-  const GridFooter = styled.div`
+const GridFooter = styled.div`
     grid-area: footer;
   `;
 
+const App = () => {
   return (
     <GridWrapper>
       <GridMain>

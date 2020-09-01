@@ -8,7 +8,7 @@ const serverConfig = {
   target: "node",
 
   // Root file of app
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
 
   // Where to put the output
   output: {

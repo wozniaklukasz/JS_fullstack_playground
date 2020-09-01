@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 const User = mongoose.model("User");
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done) => {
   done(null, user.id); //this is not an profile.id, it is an _id from mongo
 });
 
