@@ -18,8 +18,7 @@ app.use(express.static("public"));
 
 session(app);
 
-// todo: refactor auth routes like api
-authRoutes(app);
+app.use("/auth", authRoutes);
 
 app.use("/api", apiRoutes);
 
