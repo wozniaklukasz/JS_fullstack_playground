@@ -3,7 +3,8 @@ import GoogleStrategy from "passport-google-oauth20/lib/strategy";
 import FacebookStrategy from "passport-facebook/lib/strategy";
 import TwitterStrategy from "passport-twitter/lib/strategy";
 import pool from '../database/db';
-import AuthProviderEnum from './AuthProviderEnum';
+import AuthProviderEnum from '../constants/AuthProviderEnum';
+import UserRoleEnum from '../constants/UserRoleEnum';
 
 const doStrategy = (strategyType: AuthProviderEnum, accessToken, refreshToken, profile, done) => {
   pool.query('SELECT * FROM users WHERE authProvider = $1 AND authId = $2', [strategyType, profile.id])
@@ -11,7 +12,7 @@ const doStrategy = (strategyType: AuthProviderEnum, accessToken, refreshToken, p
       if (existingUser && existingUser.rows[0]) {
         done(null, existingUser.rows[0]);
       } else {
-        pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, strategyType, profile.displayName])
+        pool.query('INSERT INTO users (authId, authProvider, name, userRole) VALUES ($1, $2, $3, $4) RETURNING *', [profile.id, strategyType, profile.displayName, UserRoleEnum.ADMIN])
           .then((newUser) => {
             if (newUser && newUser.rows[0]) done(null, newUser.rows[0])
           })

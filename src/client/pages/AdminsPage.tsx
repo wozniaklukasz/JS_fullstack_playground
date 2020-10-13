@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAdmins } from "../components/features/admins/adminsSelectors";
 import { fetchAdmins } from "../components/features/admins/adminsSlice";
-import requireAuth from "../components/hocs/requireAuth";
+import requireAdminPermission from "../components/hocs/requireAdminPermission";
 import {fetchUsers} from "../components/features/users/usersSlice";
 
 const AdminsPage = () => {
@@ -29,4 +29,4 @@ const AdminsPage = () => {
 
 AdminsPage.preInitStore = (store) => store.dispatch(fetchUsers());
 
-export default requireAuth(AdminsPage);
+export default requireAdminPermission(AdminsPage);
