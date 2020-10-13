@@ -2,18 +2,19 @@ import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20/lib/strategy";
 import FacebookStrategy from "passport-facebook/lib/strategy";
 import TwitterStrategy from "passport-twitter/lib/strategy";
-import mongoose from "mongoose";
-
-const User = mongoose.model("User");
+import pool from '../database/db';
 
 passport.serializeUser((user: any, done) => {
-  done(null, user.id); //this is not an profile.id, it is an _id from mongo
+  if (user.id)
+    done(null, user.id); //this is not an profile.id, it is an _id from mongo
+  else
+    done(null, false);
 });
 
 passport.deserializeUser((userId, done) => {
-  User.findById(userId)
-    .then((user) => {
-      done(null, user);
+  pool.query('SELECT * FROM users WHERE id = $1', [userId])
+    .then((users) => {
+      done(null, users.rows[0]);
     })
     .catch((e) => console.error(e));
 });
@@ -26,17 +27,15 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      User.findOne({ googleId: profile.id })
+      pool.query('SELECT * FROM users WHERE googleId = $1', [profile.id])
         .then((existingUser) => {
-          if (existingUser) {
-            done(null, existingUser);
+          if (existingUser && existingUser.rows[0]) {
+            done(null, existingUser.rows[0]);
           } else {
-            new User({
-              googleId: profile.id,
-              name: profile.displayName,
-            })
-              .save()
-              .then((newUser) => done(null, newUser))
+            pool.query('INSERT INTO users (googleId, name) VALUES ($1, $2) RETURNING *', [profile.id, profile.displayName])
+              .then((newUser) => {
+                if (newUser && newUser.rows[0]) done(null, newUser.rows[0])
+              })
               .catch((e) => console.error(e));
           }
         })
@@ -53,16 +52,12 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      User.findOne({ facebookId: profile.id })
+      pool.query('SELECT * FROM users WHERE facebookId = $1', [profile.id])
         .then((existingUser) => {
-          if (existingUser) {
-            done(null, existingUser);
+          if (existingUser && existingUser.rows[0]) {
+            done(null, existingUser.rows[0]);
           } else {
-            new User({
-              facebookId: profile.id,
-              name: profile.displayName,
-            })
-              .save()
+            pool.query('INSERT INTO users (facebookId, name) VALUES ($1, $2) RETURNING *', [profile.id, profile.displayName])
               .then((newUser) => done(null, newUser))
               .catch((e) => console.error(e));
           }
@@ -80,16 +75,12 @@ passport.use(
       callbackURL: "/auth/twitter/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      User.findOne({ twitterId: profile.id })
+      pool.query('SELECT * FROM users WHERE twitterId = $1', [profile.id])
         .then((existingUser) => {
-          if (existingUser) {
-            done(null, existingUser);
+          if (existingUser && existingUser.rows[0]) {
+            done(null, existingUser.rows[0]);
           } else {
-            new User({
-              twitterId: profile.id,
-              name: profile.displayName,
-            })
-              .save()
+            pool.query('INSERT INTO users (twitterId, name) VALUES ($1, $2) RETURNING *', [profile.id, profile.displayName])
               .then((newUser) => done(null, newUser))
               .catch((e) => console.error(e));
           }

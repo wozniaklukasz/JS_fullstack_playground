@@ -1,5 +1,5 @@
-import { Router } from "express";
-import User from "../model/User";
+import {Router} from "express";
+import pool from '../database/db';
 
 const router = Router();
 
@@ -13,12 +13,12 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/users", (req, res) => {
-  User.find()
+  pool.query('SELECT * FROM users')
     .then((users) => {
-      res.json(users);
+      res.json(users.rows);
     })
     .catch((e) => {
-      res.send({ message: e });
+      res.send({message: e});
     });
 });
 

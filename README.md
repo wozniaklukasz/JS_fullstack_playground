@@ -21,3 +21,9 @@ write how to ssr prefetch
 - [ ] clear dependencies
 - [ ] linters
 - [ ] css grid
+
+
+### Postgres
+
+Image: `docker run --name postgres -e POSTGRES_PASSWORD=admin -d -p 5432:5432 postgres`
+Enter to docker db: `docker exec -it postgres psql -U postgres`
