@@ -27,12 +27,12 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      pool.query('SELECT * FROM users WHERE googleId = $1', [profile.id])
+      pool.query('SELECT * FROM users WHERE authId = $1', [profile.id])
         .then((existingUser) => {
           if (existingUser && existingUser.rows[0]) {
             done(null, existingUser.rows[0]);
           } else {
-            pool.query('INSERT INTO users (googleId, name) VALUES ($1, $2) RETURNING *', [profile.id, profile.displayName])
+            pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, 'google', profile.displayName])
               .then((newUser) => {
                 if (newUser && newUser.rows[0]) done(null, newUser.rows[0])
               })
@@ -52,12 +52,12 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      pool.query('SELECT * FROM users WHERE facebookId = $1', [profile.id])
+      pool.query('SELECT * FROM users WHERE authId = $1', [profile.id])
         .then((existingUser) => {
           if (existingUser && existingUser.rows[0]) {
             done(null, existingUser.rows[0]);
           } else {
-            pool.query('INSERT INTO users (facebookId, name) VALUES ($1, $2) RETURNING *', [profile.id, profile.displayName])
+            pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, 'facebook', profile.displayName])
               .then((newUser) => done(null, newUser))
               .catch((e) => console.error(e));
           }
@@ -75,12 +75,12 @@ passport.use(
       callbackURL: "/auth/twitter/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      pool.query('SELECT * FROM users WHERE twitterId = $1', [profile.id])
+      pool.query('SELECT * FROM users WHERE authId = $1', [profile.id])
         .then((existingUser) => {
           if (existingUser && existingUser.rows[0]) {
             done(null, existingUser.rows[0]);
           } else {
-            pool.query('INSERT INTO users (twitterId, name) VALUES ($1, $2) RETURNING *', [profile.id, profile.displayName])
+            pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, 'twitter', profile.displayName])
               .then((newUser) => done(null, newUser))
               .catch((e) => console.error(e));
           }

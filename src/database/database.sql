@@ -1,9 +1,12 @@
-CREATE DATABASE js_playground;
+-- DROP DATABASE IF EXISTS js_playground;
+--
+-- CREATE DATABASE js_playground;
+
+CREATE TYPE authProviderEnum AS ENUM ('google', 'facebook', 'twitter');
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    googleId VARCHAR(255),
-    facebookId VARCHAR(255),
-    twitterId VARCHAR(255)
+    authProvider authProviderEnum NOT NULL,
+    authId VARCHAR(255) NOT NULL
 )
