@@ -1,40 +1,36 @@
 import React from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import {Container} from "react-bootstrap"
 import Header from "./Header";
 import Router from "../Routes";
 import Footer from "./Footer";
 
-const GridWrapper = styled.div`
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-areas:
-    "main"
-    "footer";
-    height: 100%;
-  `;
-
-const GridMain = styled.div`
-    grid-area: main;
-  `;
-
-const GridFooter = styled.div`
-    grid-area: footer;
-  `;
+// const GridWrapper = styled.div`
+//     display: grid;
+//     grid-template-rows: 1fr;
+//     grid-template-areas:
+//     "main"
+//     "footer";
+//     height: 100%;
+//   `;
+//
+// const GridMain = styled.div`
+//     grid-area: main;
+//   `;
+//
+// const GridFooter = styled.div`
+//     grid-area: footer;
+//   `;
 
 const App = () => {
   return (
-    <GridWrapper>
-      <GridMain>
-        <Header/>
-        <Container>
-          <Router/>
-        </Container>
-      </GridMain>
-      <GridFooter>
-        <Footer/>
-      </GridFooter>
-    </GridWrapper>
+    <>
+      <Header/>
+      <Container style={{paddingTop: '60px'}}>
+        <Router/>
+      </Container>
+      <Footer/>
+    </>
   );
 };
 
