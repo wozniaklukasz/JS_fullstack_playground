@@ -7,7 +7,7 @@ export const fetchUsers = () => async (dispatch, getState, api) => {
 };
 
 const initialState = {
-    users: [{_id: 0, name: "initial"}]
+    users: [{id: 0, name: "initial"}]
 };
 
 const usersSlice = createSlice({

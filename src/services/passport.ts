@@ -3,10 +3,27 @@ import GoogleStrategy from "passport-google-oauth20/lib/strategy";
 import FacebookStrategy from "passport-facebook/lib/strategy";
 import TwitterStrategy from "passport-twitter/lib/strategy";
 import pool from '../database/db';
+import AuthProviderEnum from './AuthProviderEnum';
+
+const doStrategy = (strategyType: AuthProviderEnum, accessToken, refreshToken, profile, done) => {
+  pool.query('SELECT * FROM users WHERE authProvider = $1 AND authId = $2', [strategyType, profile.id])
+    .then((existingUser) => {
+      if (existingUser && existingUser.rows[0]) {
+        done(null, existingUser.rows[0]);
+      } else {
+        pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, strategyType, profile.displayName])
+          .then((newUser) => {
+            if (newUser && newUser.rows[0]) done(null, newUser.rows[0])
+          })
+          .catch((e) => console.error(e));
+      }
+    })
+    .catch((e) => console.error(e));
+};
 
 passport.serializeUser((user: any, done) => {
   if (user.id)
-    done(null, user.id); //this is not an profile.id, it is an _id from mongo
+    done(null, user.id);
   else
     done(null, false);
 });
@@ -27,19 +44,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      pool.query('SELECT * FROM users WHERE authId = $1', [profile.id])
-        .then((existingUser) => {
-          if (existingUser && existingUser.rows[0]) {
-            done(null, existingUser.rows[0]);
-          } else {
-            pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, 'google', profile.displayName])
-              .then((newUser) => {
-                if (newUser && newUser.rows[0]) done(null, newUser.rows[0])
-              })
-              .catch((e) => console.error(e));
-          }
-        })
-        .catch((e) => console.error(e));
+      doStrategy(AuthProviderEnum.GOOGLE, accessToken, refreshToken, profile, done);
     }
   )
 );
@@ -52,17 +57,7 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      pool.query('SELECT * FROM users WHERE authId = $1', [profile.id])
-        .then((existingUser) => {
-          if (existingUser && existingUser.rows[0]) {
-            done(null, existingUser.rows[0]);
-          } else {
-            pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, 'facebook', profile.displayName])
-              .then((newUser) => done(null, newUser))
-              .catch((e) => console.error(e));
-          }
-        })
-        .catch((e) => console.error(e));
+      doStrategy(AuthProviderEnum.FACEBOOK, accessToken, refreshToken, profile, done);
     }
   )
 );
@@ -75,17 +70,7 @@ passport.use(
       callbackURL: "/auth/twitter/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      pool.query('SELECT * FROM users WHERE authId = $1', [profile.id])
-        .then((existingUser) => {
-          if (existingUser && existingUser.rows[0]) {
-            done(null, existingUser.rows[0]);
-          } else {
-            pool.query('INSERT INTO users (authId, authProvider, name) VALUES ($1, $2, $3) RETURNING *', [profile.id, 'twitter', profile.displayName])
-              .then((newUser) => done(null, newUser))
-              .catch((e) => console.error(e));
-          }
-        })
-        .catch((e) => console.error(e));
+      doStrategy(AuthProviderEnum.TWITTER, accessToken, refreshToken, profile, done);
     }
   )
 );

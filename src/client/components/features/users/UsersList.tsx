@@ -14,8 +14,8 @@ const UsersList = () => {
   return (
     <ul>
       {users.map((u) => (
-        <li key={u._id}>
-          {u.name} - {u.facebookId ? "FB" : null} {u.googleId ? "G" : null} {u.twitterId ? "Twitter" : null}
+        <li key={u.id}>
+          {`${u.name} (${u.authprovider})`}
         </li>
       ))}
     </ul>
