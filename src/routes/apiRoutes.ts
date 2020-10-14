@@ -13,13 +13,26 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/users", (req, res) => {
-  pool.query('SELECT * FROM users')
-    .then((users) => {
-      res.json(users.rows);
-    })
-    .catch((e) => {
-      res.send({message: e});
-    });
+  const {query} = req;
+  const keys = Object.keys(query);
+
+  if (keys.length > 0) {
+    pool.query(`SELECT * FROM users WHERE userrole = $1`, ['admin'])
+      .then((users) => {
+        res.json(users.rows);
+      })
+      .catch((e) => {
+        res.send({message: e});
+      });
+  } else {
+    pool.query(`SELECT * FROM users`)
+      .then((users) => {
+        res.json(users.rows);
+      })
+      .catch((e) => {
+        res.send({message: e});
+      });
+  }
 });
 
 export default router;

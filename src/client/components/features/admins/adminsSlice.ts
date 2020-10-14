@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const fetchAdmins = () => async (dispatch, getState, api) => {
-  const res = await api.get("/api/users");
+  const res = await api.get("/api/users?userRole=admin");
 
   dispatch(addAdmins(res.data));
 };

@@ -6,13 +6,6 @@ export const fetchUsers = () => async (dispatch, getState, api) => {
   dispatch(addUsers(res.data));
 };
 
-// TODO:
-// export const fetchAdmins = () => async (dispatch, getState, api) => {
-//   const res = await api.get("/api/users");
-//
-//   dispatch(addUsers(res.data));
-// };
-
 const initialState = {
     users: [{id: 0, name: "initial"}]
 };
