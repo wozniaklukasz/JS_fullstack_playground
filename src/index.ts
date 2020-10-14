@@ -1,5 +1,8 @@
 import express from "express";
 import "dotenv/config";
+import {ApolloServer} from 'apollo-server-express';
+
+import {resolvers, typeDefs} from './schema';
 
 import renderer from "./helpers/renderer";
 import createStore from "./helpers/createStore";
@@ -22,7 +25,8 @@ app.use("/auth", authRoutes);
 
 app.use("/api", apiRoutes);
 
-app.get("*", async (req, res, next) => {
+// regex * without /graphql
+app.get(/^(?!.*graphql).*$/, async (req, res, next) => {
   const store = createStore(req);
   const {path} = req;
 
@@ -46,6 +50,9 @@ app.get("*", async (req, res, next) => {
     next(e);
   }
 });
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
 
 app.listen(PORT, () => {
   console.log(`App started on ${PORT}`);
