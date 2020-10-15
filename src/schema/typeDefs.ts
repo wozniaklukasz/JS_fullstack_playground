@@ -1,16 +1,5 @@
 import {gql} from 'apollo-server-express';
 
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
-
 export const typeDefs = gql`
     # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
@@ -27,9 +16,3 @@ export const typeDefs = gql`
         books: [Book]
     }
 `;
-
-export const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};

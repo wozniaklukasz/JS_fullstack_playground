@@ -2,7 +2,8 @@ import express from "express";
 import "dotenv/config";
 import {ApolloServer} from 'apollo-server-express';
 
-import {resolvers, typeDefs} from './schema';
+import {typeDefs} from './schema/typeDefs';
+import {resolvers} from './schema/resolvers';
 
 import renderer from "./helpers/renderer";
 import createStore from "./helpers/createStore";
