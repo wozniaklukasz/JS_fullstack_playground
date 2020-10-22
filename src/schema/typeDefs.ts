@@ -4,10 +4,8 @@ export const typeDefs = gql`
     type User {
         id: Int,
         name: String,
-        auth_provid: String,
-        auth_id: String,
-        user_role: String
-        created: String
+        authProvider: String,
+        userRole: String
     }
 
     type Query {
