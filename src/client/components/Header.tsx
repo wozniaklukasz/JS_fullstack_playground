@@ -58,7 +58,6 @@ const Header = () => {
           <Link to="/admins" className="nav-link">Admins</Link>
         </Nav>
         <Nav className="justify-content-end">
-          <Nav.Link href="/graphiql" target="graphiql">GraphiQL</Nav.Link>
           {authButton(currentUser)}
         </Nav>
       </Container>
