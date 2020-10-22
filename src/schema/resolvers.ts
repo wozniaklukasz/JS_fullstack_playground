@@ -1,16 +1,10 @@
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
+import pool from '../database/db';
 
 export const resolvers = {
   Query: {
-    users: () => books,
+    users: async () => {
+      const users = await pool.query('SELECT * FROM users');
+      return users.rows;
+    },
   },
 };
