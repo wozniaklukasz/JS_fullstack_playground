@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import {ApolloServer} from 'apollo-server-express';
+import {postgraphile} from "postgraphile";
 
 import {typeDefs} from './schema/typeDefs';
 import {resolvers} from './schema/resolvers';
@@ -13,12 +14,26 @@ import authRoutes from "./routes/authRoutes";
 import apiRoutes from "./routes/apiRoutes";
 
 import "./services/passport";
+import pool from './database/db';
 
 const PORT = process.env.PORT;
 
 const app = express();
 
 app.use(express.static("public"));
+
+app.use(
+  postgraphile(
+    // process.env.DATABASE_URL || `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DATABASE}`,
+    pool,
+    "public",
+    {
+      watchPg: true,
+      graphiql: true,
+      enhanceGraphiql: true,
+    }
+  )
+);
 
 session(app);
 

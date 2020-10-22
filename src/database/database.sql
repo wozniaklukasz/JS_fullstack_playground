@@ -1,16 +1,16 @@
--- DROP DATABASE IF EXISTS js_playground;
---
--- CREATE DATABASE js_playground;
+drop database if exists js_playground;
+create database js_playground;
 
-CREATE TYPE authProvider AS ENUM ('google', 'facebook', 'twitter');
-CREATE TYPE userRole AS ENUM ('admin', 'user');
+create type auth_provider as enum ('google', 'facebook', 'twitter');
+create type user_role as enum ('admin', 'user');
 
-DROP TABLE IF EXISTS users;
+drop table if exists users;
 
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    authProvider authProvider NOT NULL,
-    authId VARCHAR(255) NOT NULL,
-    userRole userRole NOT NULL
+create table users (
+    id serial primary key,
+    name text not null,
+    auth_provider auth_provider not null,
+    auth_id text not null,
+    user_role user_role not null,
+    created timestamptz not null default now()
 )
