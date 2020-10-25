@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAdmins } from "../components/features/admins/adminsSelectors";
-import { fetchAdmins } from "../components/features/admins/adminsSlice";
-import requireAdminPermission from "../components/hocs/requireAdminPermission";
+import {getAdmins} from '../features/admins/adminsSelectors';
+import {fetchAdmins} from '../features/admins/adminsSlice';
+import requireAdminPermission from '../hocs/requireAdminPermission';
 
 const AdminsPage = () => {
   const dispatch = useDispatch();

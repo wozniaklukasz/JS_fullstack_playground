@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import UsersPage from "./pages/UsersPage";
 import AdminsPage from "./pages/AdminsPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import UsersList from "./components/features/users/UsersList";
+import UsersList from './features/users/UsersList';
 
 const routes = [
   {

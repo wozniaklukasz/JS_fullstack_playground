@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import UsersList from "../components/features/users/UsersList";
+import UsersList from '../features/users/UsersList';
 
 const UsersPage = () => {
   return (

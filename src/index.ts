@@ -1,9 +1,5 @@
 import express from "express";
 import "dotenv/config";
-import {ApolloServer} from 'apollo-server-express';
-
-import {typeDefs} from './schema/typeDefs';
-import {resolvers} from './schema/resolvers';
 
 import renderer from "./helpers/renderer";
 import createStore from "./helpers/createStore";
@@ -13,6 +9,7 @@ import authRoutes from "./routes/authRoutes";
 import apiRoutes from "./routes/apiRoutes";
 
 import "./services/passport";
+// import pool from './database/db';
 
 const PORT = process.env.PORT;
 
@@ -51,9 +48,6 @@ app.get(/^(?!.*graphql).*$/, async (req, res, next) => {
     next(e);
   }
 });
-
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
 
 app.listen(PORT, () => {
   console.log(`App started on ${PORT}`);

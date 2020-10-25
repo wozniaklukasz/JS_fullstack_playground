@@ -17,7 +17,7 @@ router.get("/users", (req, res) => {
   const keys = Object.keys(query);
 
   if (keys.length > 0) {
-    pool.query(`SELECT * FROM users WHERE userrole = $1`, ['admin'])
+    pool.query(`SELECT * FROM users WHERE user_role = $1`, ['admin'])
       .then((users) => {
         res.json(users.rows);
       })

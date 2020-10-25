@@ -7,12 +7,12 @@ import AuthProviderEnum from '../constants/AuthProviderEnum';
 import UserRoleEnum from '../constants/UserRoleEnum';
 
 const doStrategy = (strategyType: AuthProviderEnum, accessToken, refreshToken, profile, done) => {
-  pool.query('SELECT * FROM users WHERE authProvider = $1 AND authId = $2', [strategyType, profile.id])
+  pool.query('SELECT * FROM users WHERE auth_provider = $1 AND auth_id = $2', [strategyType, profile.id])
     .then((existingUser) => {
       if (existingUser && existingUser.rows[0]) {
         done(null, existingUser.rows[0]);
       } else {
-        pool.query('INSERT INTO users (authId, authProvider, name, userRole) VALUES ($1, $2, $3, $4) RETURNING *', [profile.id, strategyType, profile.displayName, UserRoleEnum.ADMIN])
+        pool.query('INSERT INTO users (auth_id, auth_provider, name, user_role) VALUES ($1, $2, $3, $4) RETURNING *', [profile.id, strategyType, profile.displayName, UserRoleEnum.ADMIN])
           .then((newUser) => {
             if (newUser && newUser.rows[0]) done(null, newUser.rows[0])
           })

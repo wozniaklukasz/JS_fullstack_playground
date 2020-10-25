@@ -2,8 +2,8 @@ import React, {useEffect} from "react";
 import {Button, Container, Nav, Navbar, OverlayTrigger, Popover} from "react-bootstrap"
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentUser} from "./features/auth/authSelectors";
-import {fetchCurrentUser} from "./features/auth/authSlice";
+import {fetchCurrentUser} from '../features/auth/authSlice';
+import {getCurrentUser} from '../features/auth/authSelectors';
 
 const Header = () => {
   const currentUser = useSelector(getCurrentUser);
@@ -58,7 +58,6 @@ const Header = () => {
           <Link to="/admins" className="nav-link">Admins</Link>
         </Nav>
         <Nav className="justify-content-end">
-          <Nav.Link href="/graphql">GraphQL</Nav.Link>
           {authButton(currentUser)}
         </Nav>
       </Container>
